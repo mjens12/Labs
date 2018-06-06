@@ -1,51 +1,42 @@
 package lab5;
-//********************************************************************
-//  Employee.java       Author: Lewis/Loftus
+// ********************************************************************
+// Employee.java Author: Lewis/Loftus
 //
-//  Represents a general paid employee.
-//********************************************************************
+// Represents a general paid employee.
+// ********************************************************************
 
-public class Employee extends StaffMember
-{
-   protected String socialSecurityNumber;
-   protected double payRate;
-   
-   //-----------------------------------------------------------------
-   //  Constructor: Sets up this employee with the specified
-   //  information.
-   //-----------------------------------------------------------------
-   public Employee (String eName, String eAddress, String ePhone,
-                    String socSecNumber, double rate)
-   {
-      super (eName, eAddress, ePhone);
+public class Employee extends StaffMember {
+	protected String socialSecurityNumber;
+	protected double payRate;
 
-      socialSecurityNumber = socSecNumber;
-      payRate = rate;
-   }
+	// -----------------------------------------------------------------
+	// Constructor: Sets up this employee with the specified
+	// information.
+	// -----------------------------------------------------------------
+	public Employee(String eName, String eAddress, String ePhone,
+			String socSecNumber, double rate) {
+		super(eName, eAddress, ePhone);
 
-   //-----------------------------------------------------------------
-   //  Returns information about an employee as a string.
-   //-----------------------------------------------------------------
-   public String toString()
-   {
-      String result = super.toString();
+		socialSecurityNumber = socSecNumber;
+		payRate = rate;
+	}
 
-      result += " \n(EMP)\nSocial Security Number: " + socialSecurityNumber;
+	// -----------------------------------------------------------------
+	// Returns information about an employee as a string.
+	// -----------------------------------------------------------------
+	public String toString() {
+		String result = super.toString();
 
-      return result;
-   }
+		result += " \n(EMP)\nSocial Security Number: "
+				+ socialSecurityNumber;
 
-   //-----------------------------------------------------------------
-   //  Returns the pay rate for this employee.
-   //-----------------------------------------------------------------
-   public double pay()
-   {
-      return payRate;
-   }
+		return result;
+	}
+
+	// -----------------------------------------------------------------
+	// Returns the pay rate for this employee.
+	// -----------------------------------------------------------------
+	public double pay() {
+		return payRate;
+	}
 }
-
-
-
-
-
-
