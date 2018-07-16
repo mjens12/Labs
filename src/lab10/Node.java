@@ -10,6 +10,8 @@ public class Node {
 	}
 
 	public Node() {
+		data = null;
+		next = null;
 	}
 
 	public String getData() {

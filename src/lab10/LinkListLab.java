@@ -14,8 +14,21 @@ public class LinkListLab {
 	 * @return  the size of the list  
 	 ****************************************************************/
 	public int getLen() {
-		// place your code here
-		return 0;
+		int count = 0;
+
+		Node temp = top;
+
+		if (top == null)
+			return 0;
+
+		else {
+			while (temp.getNext() != null) {
+				temp = temp.getNext();
+				count++;
+			}
+		}
+
+		return count;
 	}
 
 	/****************************************************************
@@ -31,7 +44,20 @@ public class LinkListLab {
 	 ****************************************************************/
 
 	public void insertBefore(int index, String data) {
-		// place your code here
+		if ((index < 0) || (index >= getLen())) {
+			throw new IllegalArgumentException();
+		} else {
+			if (top == null) {
+				top = new Node(data, null);
+			} else {
+				Node temp = top;
+				// gets to the node at index
+				for (int i = 0; i < index; i++) {
+					temp = temp.getNext();
+				}
+
+			}
+		}
 	}
 
 	/****************************************************************
