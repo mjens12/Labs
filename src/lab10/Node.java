@@ -1,10 +1,19 @@
 package lab10;
 
-public class Node {
-	private String data;
+public class Node<E> {
+	private E data;
 	private Node next;
+	private Node prev;
 
-	public Node(String data, Node next) {
+	public Node getPrev() {
+		return prev;
+	}
+
+	public void setPrev(Node prev) {
+		this.prev = prev;
+	}
+
+	public Node(E data, Node next) {
 		this.data = data;
 		this.next = next;
 	}
@@ -14,11 +23,11 @@ public class Node {
 		next = null;
 	}
 
-	public String getData() {
+	public E getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(E data) {
 		this.data = data;
 	}
 

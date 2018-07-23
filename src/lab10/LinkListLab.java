@@ -2,9 +2,11 @@ package lab10;
 
 public class LinkListLab {
 	private Node top;
+	private Node tail;
 
 	public LinkListLab() {
 		top = null;
+		tail = null;
 	}
 
 	/****************************************************************
@@ -31,9 +33,9 @@ public class LinkListLab {
 	}
 
 	/****************************************************************
-	 * Inserts a node before a specific index.  When the list is empty
-	 * that is, top = null, then the index must be 0. After the first
-	 * element is added, index must be:  0 <= index < size of list    
+	 * Inserts a node before a specific index.  When the list is empty that is, top
+	 * = null, then the index must be 0. After the first element is added, index
+	 * must be:  0 <= index < size of list    
 	 * 
 	 * @param index
 	 *            a specific index into the list.  
@@ -44,7 +46,7 @@ public class LinkListLab {
 
 	public void insertBefore(int index, String data) {
 		if (top == null) {
-			top = new Node(data, null);
+			tail = top = new Node(data, null);
 		} else {
 			if ((index < 0) || (index >= getLen())) {
 				throw new IllegalArgumentException();
@@ -54,34 +56,27 @@ public class LinkListLab {
 				if (index == 0) {
 					top = newNode;
 					newNode.setNext(temp);
+					newNode.setPrev(null);
 				} else {
-					// gets to the node at index
-					for (int i = 0; i < index; i++) {
-						temp = temp.getNext();
-					}
-
-					newNode.setNext(temp);
-
-					temp = top;
-
 					// Gets to the node 1 before the index
 					for (int i = 0; i < (index - 1); i++) {
 						temp = temp.getNext();
 					}
-
+					newNode.setNext(temp.getNext());
 					temp.setNext(newNode);
-
+					newNode.setPrev(temp);
+					temp = temp.getNext();
+					temp = temp.getNext();
+					temp.setPrev(newNode);
 				}
 			}
 		}
 	}
-	// Constructing a new node with: node new = new Node(data,
-	// temp.getNext())
 
 	/****************************************************************
-	 *   Inserts a node after a specific index.  When the list is empty
-	 * that is, top = null, then the index must be 0. After the first
-	 * element is added, index must be:  0 <= index < size of list    
+	 *   Inserts a node after a specific index.  When the list is empty that is, top
+	 * = null, then the index must be 0. After the first element is added, index
+	 * must be:  0 <= index < size of list    
 	 * 
 	 * @param index
 	 *            a specific index into the list.    
@@ -95,7 +90,7 @@ public class LinkListLab {
 			throw new IllegalArgumentException();
 		} else {
 			if (top == null) {
-				top = new Node(data, null);
+				tail = top = new Node(data, null);
 			} else {
 				Node temp = top;
 				Node newNode = new Node(data, null);
@@ -107,9 +102,16 @@ public class LinkListLab {
 				if (temp.getNext() == null) {
 					temp.setNext(newNode);
 					newNode.setNext(null);
+					newNode.setPrev(temp);
+					tail = newNode;
 				} else {
 					newNode.setNext(temp.getNext());
+					newNode.setPrev(temp);
 					temp.setNext(newNode);
+					temp = temp.getNext();
+					temp = temp.getNext();
+					temp.setPrev(newNode);
+
 				}
 
 			}
@@ -126,29 +128,27 @@ public class LinkListLab {
 
 	public String removeTop() {
 		Node temp = top;
+		Node returnTemp = top;
 		if (top == null)
 			throw new RuntimeException();
 		else {
-			if (top.getNext() == null) {
+			if (top == tail) {
 				top = null;
+				tail = null;
 			} else {
-				// gets to next to last index
-				for (int i = 0; i < (getLen() - 1); i++) {
-					temp = temp.getNext();
-				}
-				temp.setNext(null);
+				top = temp.getNext();
 			}
 		}
-		return null;
+		return (String) returnTemp.getData();
 	}
 
 	/****************************************************************
-	 * This Method removes a node at the specific index position.  The
-	 * first node is index 0.  
+	 * This Method removes a node at the specific index position.  The first node is
+	 * index 0.  
 	 * 
 	 * @param index
-	 *            the position in the linked list that is to be 
-	 *            removed.  The first position is zero.    
+	 *            the position in the linked list that is to be  removed.  The first
+	 *            position is zero.    
 	 * @throws IllegalArgumentStringxception
 	 *             if index < 0 or  index >= size of the list  
 	 ****************************************************************/
@@ -159,8 +159,9 @@ public class LinkListLab {
 		if ((index < 0) || (index >= getLen())) {
 			throw new IllegalArgumentException();
 		} else {
-			if (top.getNext() == null) {
+			if (top == tail) {
 				top = null;
+				tail = null;
 			} else {
 				if (index == (getLen() - 1)) {
 					// gets to next to last index
@@ -168,6 +169,7 @@ public class LinkListLab {
 						n1 = n1.getNext();
 					}
 					n1.setNext(null);
+					tail=n1;
 				}
 
 				else {
@@ -182,10 +184,11 @@ public class LinkListLab {
 						n2 = n2.getNext();
 					}
 					n1.setNext(n2);
+					n2.setPrev(n1);
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 
 	// A simple testing program.  Not complete but a good start.
@@ -196,33 +199,45 @@ public class LinkListLab {
 		list.display();
 		System.out.println("Current length = " + list.getLen());
 
-		list.insertBefore(0, "apple");
+		list.insertBefore(0, "5");
 		System.out.println("Current length = " + list.getLen());
-		list.insertBefore(0, "pear");
+		list.insertBefore(0, "4");
 		System.out.println("Current length = " + list.getLen());
-		list.insertBefore(0, "pear");
+		list.insertBefore(0, "2");
 		System.out.println("Current length = " + list.getLen());
-		list.insertBefore(0, "pear");
+		list.insertBefore(0, "0");
 		System.out.println("Current length = " + list.getLen());
-		list.insertBefore(1, "peach");
+		list.insertBefore(1, "1");
 		System.out.println("Current length = " + list.getLen());
-		list.insertBefore(3, "donut");
+		list.insertBefore(3, "3");
 		System.out.println("Current length = " + list.getLen());
-		// list.insertAfter(0, "apple");
-		// list.insertAfter(0, "pear");
-		// list.insertAfter(1, "peach");
-		// list.insertAfter(1, "cherry");
-		// list.insertAfter(3, "donut");
-		// list.display();
-		//
-		// list.removeTop();
-		// list.delAt(4);
-		// list.delAt(2);
-		// list.delAt(0);
-		// list.removeTop();
-		// list.removeTop();
-		//
-		// list.display();
+		list.display();
+		list.insertAfter(0, "apple");
+		System.out.println("Current length = " + list.getLen());
+		list.insertAfter(0, "pear");
+		System.out.println("Current length = " + list.getLen());
+		list.insertAfter(1, "peach");
+		System.out.println("Current length = " + list.getLen());
+		list.insertAfter(1, "cherry");
+		System.out.println("Current length = " + list.getLen());
+		list.insertAfter(3, "donut");
+		System.out.println("Current length = " + list.getLen());
+		list.display();
+		
+		 list.removeTop();
+			System.out.println("Current length = " + list.getLen());
+		 list.delAt(4);
+			System.out.println("Current length = " + list.getLen());
+		 list.delAt(2);
+			System.out.println("Current length = " + list.getLen());
+		 list.delAt(0);
+			System.out.println("Current length = " + list.getLen());
+		 list.removeTop();
+			System.out.println("Current length = " + list.getLen());
+		 list.removeTop();
+			System.out.println("Current length = " + list.getLen());
+		
+		 list.display();
 	}
 
 	public void display() {
